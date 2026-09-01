@@ -12,7 +12,7 @@ public class Main {
         server.createContext("/", new HttpHandler() {
             @Override
             public void handle(HttpExchange exchange) throws IOException {
-                String response = "Hello World from Docker Java Server!";
+                String response = "Hellooooooooooo World from Docker Java Server!";
                 exchange.sendResponseHeaders(200, response.length());
                 OutputStream os = exchange.getResponseBody();
                 os.write(response.getBytes());
