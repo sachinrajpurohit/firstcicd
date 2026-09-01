@@ -18,15 +18,16 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
+        request_pty: true # Isse saare terminal paths sahi se load ho jate hain
         script: |
           cd /home/ubuntu/dockerproject
           
-          # Git pull ko sahi aur clean tarike se chalayein
+          # Clean Git Fetch and Reset
           git fetch origin main
           git reset --hard origin/main
           
-          # Bina sudo ke direct execution path ya plain docker commands
-          /usr/bin/docker build -t firstjava:latest .
-          /usr/bin/docker rm -f firstjavacontainer || true
-          /usr/bin/docker run -d -p 5000:5000 --name firstjavacontainer firstjava:latest
+          # Plain Docker commands (ab permissions thik hain, bina path ke chalega)
+          docker build -t firstjava:latest .
+          docker rm -f firstjavacontainer || true
+          docker run -d -p 5000:5000 --name firstjavacontainer firstjava:latest
 
