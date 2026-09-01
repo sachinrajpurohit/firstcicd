@@ -21,13 +21,12 @@ jobs:
         script: |
           cd /home/ubuntu/dockerproject
           
-          # Git pull ko force reset ke sath chalayein taaki naya code hamesha aaye
-          sudo git fetch --all
-          sudo git reset --hard origin/main
+          # Git pull ko sahi aur clean tarike se chalayein
+          git fetch origin main
+          git reset --hard origin/main
           
-          # Docker commands with full path or sudo
-          sudo docker build -t firstjava:latest .
-          sudo docker rm -f firstjavacontainer || true
-          sudo docker run -d -p 5000:5000 --name firstjavacontainer firstjava:latest
- 
+          # Bina sudo ke direct execution path ya plain docker commands
+          /usr/bin/docker build -t firstjava:latest .
+          /usr/bin/docker rm -f firstjavacontainer || true
+          /usr/bin/docker run -d -p 5000:5000 --name firstjavacontainer firstjava:latest
 
