@@ -1,6 +1,5 @@
 name: CI/CD Pipeline
 
-# Yeh tab chalega jab aap 'main' branch par code push karenge
 on:
   push:
     branches: [ "main" ]
@@ -10,11 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. GitHub aapka code check-out karega
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # 2. SSH ke zariye aapke AWS EC2 server me login karega aur commands chalayega
     - name: Deploy to AWS EC2
       uses: appleboy/ssh-action@master
       with:
@@ -22,18 +19,15 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          # Project folder me jayein
           cd /home/ubuntu/dockerproject
           
-          # GitHub se naya code pull karein
-          git pull origin main
+          # Git pull ko force reset ke sath chalayein taaki naya code hamesha aaye
+          sudo git fetch --all
+          sudo git reset --hard origin/main
           
-          # Nayi Docker image build karein
-          docker build -t firstjava:latest .
-          
-          # Purane container ko delete karke naya restart karein
-          docker rm -f firstjavacontainer
-          docker run  -p 5000:5000 -d --name firstjavacontainer  firstjava:latest
-
-        
+          # Docker commands with full path or sudo
+          sudo docker build -t firstjava:latest .
+          sudo docker rm -f firstjavacontainer || true
+          sudo docker run -d -p 5000:5000 --name firstjavacontainer firstjava:latest
+ 
 
