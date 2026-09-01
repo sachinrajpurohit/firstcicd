@@ -51,6 +51,6 @@ jobs:
           sg docker -c "
             docker build -t firstjava:latest .
             docker rm -f firstjavacontainer || true
-            docker run -dt -p 5000:5000 --name firstjavacontainer firstjava:latest
+            docker run -d -p 5000:5000 --name firstjavacontainer firstjava:latest
           "
 

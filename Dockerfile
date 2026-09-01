@@ -11,6 +11,8 @@ FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
-COPY --from=builder /build/Main.class .
+
+
+COPY --from=builder /build/*.class ./
 
 CMD ["java", "Main"]
